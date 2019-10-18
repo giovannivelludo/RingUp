@@ -1,12 +1,16 @@
 package com.gruppo4.sms;
 
+import android.app.PendingIntent;
+import android.content.Context;
 import android.telephony.SmsManager;
 
 public class SMSController {
 
-    public void sendMessage(String telephoneNumber, String text){
+    public static void sendMessage(String telephoneNumber, String text, PendingIntent onSent){
+        SmsManager.getDefault().sendTextMessage(telephoneNumber,null,text,onSent,null);
+    }
 
-        SmsManager.getDefault().sendTextMessage(telephoneNumber,null,text,null,null);
+    public static void addOnReceiveListener(Context context){
 
     }
 
