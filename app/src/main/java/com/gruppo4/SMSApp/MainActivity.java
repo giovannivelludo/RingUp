@@ -16,50 +16,37 @@ import android.widget.Toast;
 import android.telephony.SmsManager;
 
 import com.gruppo4.sms.SMSController;
+import com.gruppo4.sms.SMSMessage;
+import com.gruppo4.sms.exceptions.InvalidSMSMessageException;
+import com.gruppo4.sms.exceptions.InvalidTelephoneNumberException;
+import com.gruppo4.sms.listeners.SMSRecieveListener;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String SENT = "SMS_SENT";
-
-    BroadcastReceiver sentActivity = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context arg0, Intent arg1) {
-            Log.d("MainActivity","WEE ABBIAMO MANDATO UN MESSAGGIO");
-            switch (getResultCode()) {
-                case Activity.RESULT_OK:
-                    Toast.makeText(getBaseContext(), "SMS delivered",
-                            Toast.LENGTH_LONG).show();
-                    break;
-                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                    Toast.makeText(getBaseContext(), "SMS not delivered GENERIC FAILURE",
-                            Toast.LENGTH_LONG).show();
-                    break;
-                case SmsManager.RESULT_ERROR_RADIO_OFF:
-                    Toast.makeText(getBaseContext(), "SMS not delivered RADIO OFF",
-                            Toast.LENGTH_LONG).show();
-                    break;
-                case SmsManager.RESULT_ERROR_NULL_PDU:
-                    Toast.makeText(getBaseContext(), "SMS not delivered NULL PDU",
-                        Toast.LENGTH_LONG).show();
-                    break;
-            }
-        }
-    };
+public class MainActivity extends AppCompatActivity implements SMSRecieveListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Richiediamo il permesso di leggere i messaggi
         requestPermissions(new String[]{Manifest.permission.SEND_SMS},1);
 
-        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-
-        registerReceiver(sentActivity, new IntentFilter(SENT));
+        SMSController.addOnReceiveListener(this);
 
         SMSController controller = new SMSController();
-        controller.sendMessage("+393467965447","Ciao Luca",sentPI);
+        try {
+            SMSMessage message = new SMSMessage("+393467965447", "Ciao Luca");
+            controller.sendMessage(this, message);
+        }catch(InvalidSMSMessageException messageException){
+            Log.e("MainActivity",messageException.getMessage());
+        }catch(InvalidTelephoneNumberException telephoneException){
+            Log.e("MainActivity",telephoneException.getMessage());
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    public void onSMSRecieve(SMSMessage message) {
+        Log.d("MainActivity","Ricevuto onReceive");
+        Toast.makeText(this,"MAIN ACTIVITY:"+message.getMessageText(), Toast.LENGTH_LONG).show();
+    }
 }
