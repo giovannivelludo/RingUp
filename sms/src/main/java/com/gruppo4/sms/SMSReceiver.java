@@ -13,7 +13,7 @@ import com.gruppo4.sms.exceptions.InvalidTelephoneNumberException;
 
 public class SMSReceiver extends BroadcastReceiver {
 
-	private static final String TAG = "SMSController";
+	private static final String TAG = "SMSReciever";
 	private static final String PDU_TYPE = "pdus";
 
 	/**
