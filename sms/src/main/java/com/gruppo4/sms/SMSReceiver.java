@@ -6,10 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.gruppo4.sms.exceptions.InvalidSMSMessageException;
-import com.gruppo4.sms.exceptions.InvalidTelephoneNumberException;
 
 public class SMSReceiver extends BroadcastReceiver {
 
@@ -44,17 +40,12 @@ public class SMSReceiver extends BroadcastReceiver {
 					// If Android version L or older:
 					messages[i] = android.telephony.SmsMessage.createFromPdu((byte[]) pdus[i]);
 				}
-				try {
-				    //Create a library message class instance.
-					SMSMessage receivedMessage = new SMSMessage(messages[i].getOriginatingAddress(), messages[i].getMessageBody(),1);
-					//Call every listener subscribed to this event.
-					SMSController.onReceive(receivedMessage);
-				}catch(InvalidTelephoneNumberException telephoneException){
-					//Should NEVER happened but we must catch the exception.
-					Log.e(TAG,telephoneException.getMessage());
-				}catch(InvalidSMSMessageException messageException){
-					//Should NEVER happened too but we must catch the exception.
-					Log.e(TAG,messageException.getMessage());
+
+				//Create a library packet class instance.
+				SMSPacket packet = SMSPacket.createSMSPacket(messages[i].getMessageBody());
+				if (packet != null){
+					//A packet will be null only if the message is not formatted correctly
+					SMSController.onReceive(packet, messages[i].getOriginatingAddress());
 				}
 			}
 		}
