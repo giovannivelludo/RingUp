@@ -46,7 +46,7 @@ public class SMSReceiver extends BroadcastReceiver {
 				}
 				try {
 				    //Create a library message class instance.
-					SMSMessage receivedMessage = new SMSMessage(messages[i].getOriginatingAddress(), messages[i].getMessageBody());
+					SMSMessage receivedMessage = new SMSMessage(messages[i].getOriginatingAddress(), messages[i].getMessageBody(),1);
 					//Call every listener subscribed to this event.
 					SMSController.onReceive(receivedMessage);
 				}catch(InvalidTelephoneNumberException telephoneException){
