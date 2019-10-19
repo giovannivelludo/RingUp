@@ -42,7 +42,7 @@ public class SMSReceiver extends BroadcastReceiver {
 				}
 
 				//Create a library packet class instance.
-				SMSPacket packet = SMSPacket.createSMSPacket(messages[i].getMessageBody());
+				SMSPacket packet = SMSPacket.parseSMSPacket(messages[i].getMessageBody());
 				if (packet != null){
 					//A packet will be null only if the message is not formatted correctly
 					SMSController.onReceive(packet, messages[i].getOriginatingAddress());
