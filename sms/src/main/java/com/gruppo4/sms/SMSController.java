@@ -1,13 +1,19 @@
+// SMSController
 package com.gruppo4.sms;
 
 import android.telephony.SmsManager;
 
 public class SMSController {
 
-    public void sendMessage(String telephoneNumber, String text){
+    //costruttore
+    public SMSController(){};
 
-        SmsManager.getDefault().sendTextMessage(telephoneNumber,null,text,null,null);
+    //invio messaggio
+    public void sendMessage(SMSMessage messaggio){
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(messaggio.getNumber(), null, messaggio.getText(),null, null);
 
     }
+
 
 }
