@@ -6,6 +6,7 @@ import android.Manifest;
 import android.os.Bundle;
 
 import com.gruppo4.sms.SMSController;
+import com.gruppo4.sms.SMSMessage;
 
 //estende l'Activity AppCompat che serve a rendere la app retrocompatibile
 public class MainActivity extends AppCompatActivity {
@@ -18,5 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // invio messaggio vero e proprio
+        SMSMessage messaggio = new SMSMessage("+393925788313","PROVA PROVONE");
     }
 }
