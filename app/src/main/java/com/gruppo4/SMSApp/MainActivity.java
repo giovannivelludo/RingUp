@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements SMSReceivedListen
                 String telephoneNumber = numberTextView.getText().toString();
        /**
         * Controllo per verificare se il numero di telefono e' valido o no.
-        * Credits: Luca Crema feat. gruppo 4.
+        * Credits: Luca Crema feat. gruppo4.
        */
                 if (!SMSMessage.checkTelephoneNumber(telephoneNumber)) {
        /**
@@ -105,11 +105,15 @@ public class MainActivity extends AppCompatActivity implements SMSReceivedListen
     }
 
     /**
-     * onSentReceived. realizza l'interfaccia SMSSentListener.
-     *
+     * onSentReceived. Realizzazione del metodo nell'interfaccia SMSSentListener,
+     * che si occupa di verificare se il messaggio e' stato inviato o no.
+     * Credits: Luca Crema feat. gruppo4
      */
     @Override
     public void onSentReceived(SMSMessage message) {
+    /**
+     * Si crea un Toast che informa sullo stato del messaggio (inviato/non inviato).
+     */
         switch (message.getState()) {
             case MESSAGE_SENT:
                 Toast.makeText(this, "Message sent", Toast.LENGTH_SHORT).show();
@@ -123,6 +127,11 @@ public class MainActivity extends AppCompatActivity implements SMSReceivedListen
 
     }
 
+    /**
+     * onMessageReceived. Realizzazione del metodo nell'interfaccia SMSReceivedListener,
+     * che si occupa della ricezione del messaggio.
+     * Credits: Luca Crema feat. gruppo4.
+     */
     @Override
     public void onMessageReceived(SMSMessage message) {
         smileReceiver.setText(message.getTelephoneNumber() + " " + message.getMessage());
