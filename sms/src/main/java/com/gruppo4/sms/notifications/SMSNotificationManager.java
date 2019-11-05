@@ -9,7 +9,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Set;
 
-public class SMSNotificationHandler {
+public class SMSNotificationManager {
 
     /**
      * If the app doesn't have notification listening permissions, it opens the system page/activity for them to be granted

@@ -22,7 +22,7 @@ import com.gruppo4.sms.dataLink.exceptions.InvalidSMSMessageException;
 import com.gruppo4.sms.dataLink.exceptions.InvalidTelephoneNumberException;
 import com.gruppo4.sms.dataLink.listeners.SMSReceivedListener;
 import com.gruppo4.sms.dataLink.listeners.SMSSentListener;
-import com.gruppo4.sms.notifications.SMSNotificationHandler;
+import com.gruppo4.sms.notifications.SMSNotificationManager;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SMSReceivedListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SMSNotificationHandler.automaticNotificationListenerSetup(this);
+        SMSNotificationManager.automaticNotificationListenerSetup(this);
 
         if (checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
                 checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
