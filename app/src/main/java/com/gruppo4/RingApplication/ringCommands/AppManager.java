@@ -15,7 +15,7 @@ import com.gruppo4.sms.dataLink.listeners.SMSSentListener;
  */
 public class AppManager {
 
-    private final static int TIME = 30 * 1000;
+    private final static int TIME = 5 * 1000;
 
     /**
      * If the password of the message received is valid then play ringtone for fixed amount of time
