@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.media.Ringtone;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
     private static final int SET_PASS_COMMAND = 1;
     private static final String SPLIT_CHARACTER = RingCommandHandler.SPLIT_CHARACTER;
     private static final int WAIT_TIME_PERMISSION = 2000;
-    private static final int WAIT_TIME_RINGTONE = 30 * 1000; //30 seconds by default
+    private static final int DEFAULT_WAIT_TIME_RINGTONE = 30 * 1000; //30 seconds by default
     private Ringtone RINGTONE;
     private EditText PHONE_NUMBER;
     private EditText SEND_PASSWORD;
@@ -60,13 +59,6 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
         final Context context = getApplicationContext();
         SMSHandler smsHandler = SMSHandler.getInstance(context);
         passwordManager = new PasswordManager(context);
-
-        /**
-         * Controls if a timer value is present on memory, if not we need a default value -> 30 seconds
-         */
-        if (PreferencesManager.getInt(context, TIMER_STRING_KEY) == (PreferencesManager.DEFAULT_INTEGER_RETURN)) {
-            PreferencesManager.setInt(context, TIMER_STRING_KEY, WAIT_TIME_RINGTONE);
-        }
 
         RINGTONE = RingtoneHandler.getDefaultRingtone(getApplicationContext());
         PHONE_NUMBER = findViewById(R.id.phone_number_field);

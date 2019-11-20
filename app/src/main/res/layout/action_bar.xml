@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:popupTheme="@style/CustomPopupMenuStyle"
-    app:theme="@style/CustomToolbarStyle">
+    app:theme="@style/CustomToolbarStyle"
+    android:backgroundTint="@color/nice_green">
 
 </androidx.appcompat.widget.Toolbar>

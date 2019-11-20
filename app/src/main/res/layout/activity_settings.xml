@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_background_color">
+    android:background="@color/white">
 
-    <Spinner
-        android:id="@+id/timer_selection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="100dp"
-        android:background="@color/activity_background_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_timer_text" />
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/action_bar"></include>
 
     <TextView
         android:id="@+id/command_select"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginEnd="100dp"
+        android:background="@color/nice_grey"
         android:text="Select the command"
-        android:textColor="@color/text_color"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/actionBar" />
 
     <TextView
         android:id="@+id/select_timer_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/nice_grey"
         android:text="Select a timer (seconds)"
-        android:textColor="@color/text_color"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vibration_mode" />
+
+    <TextView
+        android:id="@+id/select_timer_text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nice_grey"
+        android:text="Change your device password"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="349dp" />
 
     <RadioButton
         android:id="@+id/vibration_mode"
@@ -53,21 +53,6 @@
         android:text="Vibration"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/command_select" />
-
-    <Button
-        android:id="@+id/change_password"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginEnd="100dp"
-        android:background="@color/buttons_color"
-        android:text="change password"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_selection" />
 
     <RadioButton
         android:id="@+id/ringtone_mode"
@@ -80,5 +65,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/vibration_mode"
         app:layout_constraintTop_toBottomOf="@+id/command_select" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/change_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_timer_text2"
+        app:srcCompat="@android:drawable/ic_secure" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
