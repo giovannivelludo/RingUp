@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         if (!(alarmtone.isPlaying()))
             RingtoneHandler.playRingtone(ringtone);
         else
-            Toast.makeText(this, R.string.already_playing, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.alarm_already_playing, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         if (!(ringtone.isPlaying()))
             RingtoneHandler.playRingtone(alarmtone);
         else
-            Toast.makeText(this, R.string.already_playing, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ringtone_already_playing, Toast.LENGTH_SHORT).show();
     }
 
     /**
