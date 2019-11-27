@@ -14,7 +14,7 @@ public class Value extends SerializableObject
 
     public boolean equals(Object obj) {
         if (obj instanceof Value){
-            return ((Value) obj).value == value;
+            return ((Value) obj).value.equals(value);
         }
         return false;
     }
