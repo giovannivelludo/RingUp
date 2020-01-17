@@ -9,55 +9,50 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationManagerCompat;
-
 import com.eis.smslibrary.SMSManager;
-import com.eis.smslibrary.SMSMessage;
-import com.eis.smslibrary.SMSPeer;
-import com.eis.smslibrary.exceptions.InvalidTelephoneNumberException;
-import com.eis.smslibrary.listeners.SMSSentListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.gruppo4.permissions.PermissionsHandler;
 import com.gruppo4.ringUp.structure.AppManager;
+import com.gruppo4.ringUp.structure.Contact;
 import com.gruppo4.ringUp.structure.NotificationHandler;
 import com.gruppo4.ringUp.structure.PasswordManager;
 import com.gruppo4.ringUp.structure.ReceivedMessageListener;
-import com.gruppo4.ringUp.structure.RingCommand;
 import com.gruppo4.ringUp.structure.RingCommandHandler;
 import com.gruppo4.ringUp.structure.RingtoneHandler;
 import com.gruppo4.ringUp.structure.dialog.PasswordDialog;
 import com.gruppo4.ringUp.structure.dialog.PasswordDialogListener;
 import com.gruppo4.ringUp.structure.exceptions.IllegalCommandException;
 
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import it.lucacrema.preferences.PreferencesManager;
+
 /**
  * @author Gruppo4
  */
 public class MainActivity extends AppCompatActivity implements PasswordDialogListener {
-
     public static final String APP_NAME = "RingUp";
 
-    private Button ringButton;
-    private TextView adviceTextView;
-    private EditText phoneNumberField, passwordField;
+    private static final String CONTACTS_PREFERENCES_ID = "ContactsPreferencesID";
+    private ArrayList<Contact> knownContacts;
+    private RecyclerView contactListView;
+
     private static final String IDENTIFIER = RingCommandHandler.SIGNATURE;
     private static final int WAIT_TIME_RING_BTN_ENABLED = 10 * 1000;
     private static int timerValue = WAIT_TIME_RING_BTN_ENABLED;
-    private static String adviceText = "Wait " + timerValue + " seconds for a new ring";
     static final int CHANGE_PASS_COMMAND = 0;
     static final int SET_PASS_COMMAND = 1;
     static final String DIALOG_TAG = "Device Password";
@@ -67,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
     public static final String CHANNEL_ID = "123";
     private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Stop Ringtone Notification";
     private static final int COUNTDOWN_INTERVAL = 1000;
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> peerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +86,6 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
             this.finish();
         }
 
-        //Setting up the action bar
-        Toolbar toolbar = findViewById(R.id.actionBar);
-        toolbar.setTitle(APP_NAME);
-        toolbar.setTitleTextColor(getColor(R.color.black));
-        setSupportActionBar(toolbar);
-
         createNotificationChannel();
 
         //Only if the activity is started by a service
@@ -103,67 +93,43 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
 
         //Setting up the custom listener in order to receive messages
         SMSManager.getInstance().setReceivedListener(ReceivedMessageListener.class, context);
-        phoneNumberField = findViewById(R.id.phone_number_field);
-        passwordField = findViewById(R.id.password_field);
-        adviceTextView = findViewById(R.id.advice_text_view);
-        ringButton = findViewById(R.id.ring_button);
-        ringButton.setOnClickListener(v -> sendRingCommand());
-    }
 
-    //**************************************SEND_COMMAND**************************************
+        knownContacts = getKnownContactsFromPreferences();
+        setupContactList(knownContacts);
+    }
 
     /**
-     * Method used to send the ring command through the {@link AppManager#sendCommand(Context, RingCommand, SMSSentListener)} method
+     * Loads the list of known contacts from the memory.
      *
-     * @author Alberto Ursino
+     * @return A list of known contacts.
      * @author Luca Crema
      */
-    public void sendRingCommand() {
-        String phoneNumber = phoneNumberField.getText().toString();
-        String password = passwordField.getText().toString();
-
-        if (password.isEmpty() && phoneNumber.isEmpty()) {
-            Toast.makeText(getApplicationContext(), getString(R.string.toast_pass_phone_number_absent), Toast.LENGTH_SHORT).show();
-        } else if (phoneNumber.isEmpty()) {
-            Toast.makeText(getApplicationContext(), getString(R.string.toast_phone_number_absent), Toast.LENGTH_SHORT).show();
-        } else if (password.isEmpty()) {
-            Toast.makeText(getApplicationContext(), getString(R.string.toast_password_absent), Toast.LENGTH_SHORT).show();
-        } else {
-            try {
-                //Creation of the ring command
-                final RingCommand ringCommand = new RingCommand(new SMSPeer(phoneNumber), IDENTIFIER + password);
-
-                AppManager.getInstance().sendCommand(getApplicationContext(), ringCommand, (SMSMessage message, SMSMessage.SentState sentState) -> {
-                    Snackbar.make(findViewById(R.id.main_activity_layout),getString(R.string.toast_message_sent_listener) + " " + phoneNumber, Snackbar.LENGTH_LONG).show();
-                });
-                ringButton.setEnabled(false);
-                adviceTextView.setText(adviceText);
-
-                //Button disabling
-                new CountDownTimer(WAIT_TIME_RING_BTN_ENABLED, COUNTDOWN_INTERVAL) {
-
-                    public void onTick(long millisUntilFinished) {
-                        timerValue = (int) millisUntilFinished;
-                        adviceTextView.setText("Wait " + timerValue / COUNTDOWN_INTERVAL + " seconds for send a new find request");
-                    }
-
-                    public void onFinish() {
-                        if (!ringButton.isEnabled())
-                            ringButton.setEnabled(true);
-                        adviceTextView.setText("");
-                        timerValue = WAIT_TIME_RING_BTN_ENABLED;
-                    }
-                }.start();
-
-            } catch (InvalidTelephoneNumberException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.toast_invalid_phone_number), Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
+    private ArrayList<Contact> getKnownContactsFromPreferences() {
+        return (ArrayList<Contact>) PreferencesManager.getObject(getApplicationContext(), CONTACTS_PREFERENCES_ID);
     }
 
-    //**************************************MENU**************************************
+    /**
+     * Callback for click on "+" button at the end of the contact list
+     */
+    public void onAddContactButton(View view) {
+
+    }
+
+    /**
+     * Sets up the main recycler view with the given contact list.
+     *
+     * @param contacts list of already used contacts
+     * @author Luca Crema
+     */
+    private void setupContactList(ArrayList<Contact> contacts) {
+        contactListView = findViewById(R.id.main_recycler_view);
+        contactListView.setHasFixedSize(true);
+        // use a linear layout manager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        contactListView.setLayoutManager(layoutManager);
+        //Set a peer adapter
+        contactListView.setAdapter(new ContactAdapter(contacts));
+    }
 
     /**
      * Method used to show up the {@link menu/app_menu.xml}
@@ -192,8 +158,6 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    //**************************************RUBRIC**************************************
 
     /**
      * Method to open the system address book
@@ -236,9 +200,10 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
                     }
                     phones.close();
                     //Put the number in the phoneNumberField
-                    phoneNumberField.setText(number);
+                    //phoneNumberField.setText(number);
+                    //TODO: use the phone number
                 } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.toast_contact_has_no_phone_number), Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.main_recycler_view), getString(R.string.toast_contact_has_no_phone_number), Snackbar.LENGTH_LONG).show();
                 }
                 cursor.close();
             }
@@ -322,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
     }
 
     /**
-     * Manages action from intent
+     * Manages action from intent. If the intent is coming from the notification then we're showing the stop ring dialog.
      */
     private void startFromService() {
         Log.d("MainActivity", "startFromService called");
