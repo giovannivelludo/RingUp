@@ -15,8 +15,14 @@ public class ContactDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater layoutInflater = requireActivity().getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.password_dialog, null);
+        View view = layoutInflater.inflate(R.layout.add_contact_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+
+        //The alert dialog won't be closed if the user presses outside it
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        return dialog;
     }
 
 }
