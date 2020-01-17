@@ -32,4 +32,6 @@
     <string name="instructions_step_4">Ascolta attentamente se senti la tua suoneria e trova il telefono!</string>
     <string name="change_device_password">Cambia la password del telefono</string>
     <string name="set_device_password">Imposta la password del telefono</string>
+    <string name="contact_name">Name</string>
+    <string name="not_valid_contact_name">Nome non valido</string>
 </resources>

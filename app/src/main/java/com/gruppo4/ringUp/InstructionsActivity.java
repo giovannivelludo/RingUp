@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.gruppo4.ringUp.structure.PasswordManager;
 import com.gruppo4.ringUp.structure.dialog.PasswordDialog;
 import com.gruppo4.ringUp.structure.dialog.PasswordDialogListener;
 import com.gruppo4.ringUp.structure.exceptions.IllegalCommandException;
 
-import static com.gruppo4.ringUp.MainActivity.DIALOG_TAG;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static com.gruppo4.ringUp.MainActivity.PASSWORD_DIALOG_TAG;
 import static com.gruppo4.ringUp.MainActivity.SET_PASS_COMMAND;
 
 /**
@@ -90,6 +90,6 @@ public class InstructionsActivity extends AppCompatActivity implements PasswordD
     void openPassDialog() throws IllegalCommandException {
         PasswordDialog passwordDialog;
         passwordDialog = new PasswordDialog(SET_PASS_COMMAND, getApplicationContext());
-        passwordDialog.show(getSupportFragmentManager(), DIALOG_TAG);
+        passwordDialog.show(getSupportFragmentManager(), PASSWORD_DIALOG_TAG);
     }
 }

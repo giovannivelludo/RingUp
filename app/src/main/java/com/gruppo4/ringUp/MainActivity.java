@@ -27,6 +27,7 @@ import com.gruppo4.ringUp.structure.PasswordManager;
 import com.gruppo4.ringUp.structure.ReceivedMessageListener;
 import com.gruppo4.ringUp.structure.RingCommandHandler;
 import com.gruppo4.ringUp.structure.RingtoneHandler;
+import com.gruppo4.ringUp.structure.dialog.ContactDialog;
 import com.gruppo4.ringUp.structure.dialog.PasswordDialog;
 import com.gruppo4.ringUp.structure.dialog.PasswordDialogListener;
 import com.gruppo4.ringUp.structure.exceptions.IllegalCommandException;
@@ -46,7 +47,7 @@ import it.lucacrema.preferences.PreferencesManager;
 public class MainActivity extends AppCompatActivity implements PasswordDialogListener {
     public static final String APP_NAME = "RingUp";
 
-    private static final String CONTACTS_PREFERENCES_ID = "ContactsPreferencesID";
+    public static final String CONTACTS_PREFERENCES_ID = "ContactsPreferencesID";
     private ArrayList<Contact> knownContacts;
     private RecyclerView contactListView;
 
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
     private static int timerValue = WAIT_TIME_RING_BTN_ENABLED;
     static final int CHANGE_PASS_COMMAND = 0;
     static final int SET_PASS_COMMAND = 1;
-    static final String DIALOG_TAG = "Device Password";
+    static final String PASSWORD_DIALOG_TAG = "Device Password";
+    private static final String CONTACT_DIALOG_TAG = "New contact";
     private static final int PICK_CONTACT = 1;
     private PasswordManager passwordManager;
     public static final String CHANNEL_NAME = "TestChannelName";
@@ -105,14 +107,19 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
      * @author Luca Crema
      */
     private ArrayList<Contact> getKnownContactsFromPreferences() {
-        return (ArrayList<Contact>) PreferencesManager.getObject(getApplicationContext(), CONTACTS_PREFERENCES_ID);
+        ArrayList<Contact> ret = (ArrayList<Contact>) PreferencesManager.getObject(getApplicationContext(), CONTACTS_PREFERENCES_ID);
+        if (ret == null)
+            ret = new ArrayList<>();
+        return ret;
     }
 
     /**
      * Callback for click on "+" button at the end of the contact list
      */
     public void onAddContactButton(View view) {
-
+        Log.v("MainActivity", "onAddContactButton");
+        ContactDialog contactDialog = new ContactDialog(knownContacts);
+        contactDialog.show(getSupportFragmentManager(), CONTACT_DIALOG_TAG);
     }
 
     /**
@@ -223,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
         PasswordDialog passwordDialog;
         if (command == CHANGE_PASS_COMMAND) {
             passwordDialog = new PasswordDialog(CHANGE_PASS_COMMAND, getApplicationContext());
-            passwordDialog.show(getSupportFragmentManager(), DIALOG_TAG);
+            passwordDialog.show(getSupportFragmentManager(), PASSWORD_DIALOG_TAG);
         } else {
             throw new IllegalCommandException();
         }

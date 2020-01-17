@@ -1,5 +1,6 @@
 package com.gruppo4.ringUp;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
      */
     @Override
     public int getItemViewType(int position) {
-        if (position < getItemCount()) {
+        if (position < peerList.size()) {
             return CONTACT;
         } else {
             return NEW_CONTACT;
@@ -42,23 +43,27 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //parent.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        Log.v("ContactAdapter", "View type: " + viewType);
         if (viewType == NEW_CONTACT) {
             return new ContactViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.add_contact, parent, false));
-        } else {
+        } else if (viewType == CONTACT) {
             return new ContactViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_name, parent, false));
+        } else {
+            return new ContactViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.password_dialog, parent, false));
         }
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        if (position < getItemCount())
+        Log.v("ContactAdapter", "onBindViewHolder position: " + position);
+        if (position < peerList.size())
             holder.nameTextView.setText(peerList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return peerList.size();
+        return peerList.size() + 1;
     }
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
