@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Anti-Theft</string>
+    <string name="sendCommand">SEND</string>
+    <string name="ringCommand">RING</string>
+    <string name="locateCommand">LOCATE</string>
+    <string name="lockCommand">LOCK</string>
+    <string name="telephoneNumberField">(Insert telephone number here)</string>
 
 </resources>
