@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +22,12 @@ import com.gruppo4.ringUp.R;
 public class MainActivity extends AppCompatActivity {
 
     String telephoneNumber;
-    View ringButton, locateButton, lockButton;
+    View ringButton, locateButton, invalidButton;
 
     View sendButton;
 
     enum SelectedCommand {
-        INVALID, RING, LOCATE, LOCK;
+        INVALID, RING, LOCATE;
     }
 
     SelectedCommand command;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = getApplicationContext();
 
-        telephoneNumber = findViewById(R.id.telephoneNumber).toString();
+        telephoneNumber = ((EditText) findViewById(R.id.telephoneNumber)).getText().toString();
         Log.d("TelephoneNumberCheck", "Telephone number: " + telephoneNumber);
 
 
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         ringButton.setOnClickListener(this::onClick);
         locateButton = findViewById(R.id.locateButton);
         locateButton.setOnClickListener(this::onClick);
-        lockButton = findViewById(R.id.lockButton);
-        lockButton.setOnClickListener(this::onClick);
+        invalidButton = findViewById(R.id.invalidButton);
+        invalidButton.setOnClickListener(this::onClick);
 
         sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(this::onSend);
@@ -68,14 +69,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onSend(@NonNull View view) throws IllegalArgumentException {
         if (command == SelectedCommand.RING)
-            Log.d("BUTTON-CHECKED", "RING button is selected.");
+            Log.d("COMMAND-PERFORMED", "RING command is selected.");
         else if (command == SelectedCommand.LOCATE)
-            Log.d("BUTTON-CHECKED", "Locate button is selected.");
-        else if (command == SelectedCommand.LOCK)
-            Log.d("BUTTON-CHECKED", "LOCK button is selected.");
+            Log.d("COMMAND-PERFORMED", "LOCATE command is selected.");
         else if (command == SelectedCommand.INVALID)
             throw new IllegalArgumentException("Unexpected command is selected");
-        else throw new IllegalArgumentException("Nothing is selected.");
+        else throw new IllegalArgumentException("No command is selected.");
+
+        telephoneNumber = ((EditText) findViewById(R.id.telephoneNumber)).getText().toString();
+
+        Log.d("TelephoneNumberCheck", "NEW Telephone number: " + telephoneNumber);
     }
 
     /**
@@ -92,10 +95,6 @@ public class MainActivity extends AppCompatActivity {
             break;
             case R.id.locateButton: {
                 command = SelectedCommand.LOCATE;
-            }
-            break;
-            case R.id.lockButton: {
-                command = SelectedCommand.LOCK;
             }
             break;
             default:

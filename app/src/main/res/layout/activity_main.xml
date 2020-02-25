@@ -15,8 +15,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/telephoneNumberField"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="79dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -39,10 +40,11 @@
             android:text="@string/locateCommand" />
 
         <RadioButton
-            android:id="@+id/lockButton"
+            android:id="@+id/invalidButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lockCommand" />
+            android:text="@string/invalidCommand" />
+
     </RadioGroup>
 
     <Button
