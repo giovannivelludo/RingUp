@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gruppo4.ringUp.R;
 
 /**
- * @author Gruppo4
+ * @author Francesco Bau'
+ * @since 24/02/2020
  */
 public class MainActivity extends AppCompatActivity {
 
