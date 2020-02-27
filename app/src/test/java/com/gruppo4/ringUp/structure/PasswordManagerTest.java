@@ -38,14 +38,6 @@ public class PasswordManagerTest {
     }
 
     @Test
-    public void getPassword() {
-        expect(PreferencesManager.getString(mockedContext, PREFERENCES_PASSWORD_KEY)).andReturn(STORED_VALUE);
-        PowerMock.replay(PreferencesManager.class);
-        Assert.assertEquals(STORED_VALUE, PasswordManager.getPassword(mockedContext));
-        PowerMock.verify(PreferencesManager.class);
-    }
-
-    @Test
     public void setPassword() {
         expect(PreferencesManager.setString(mockedContext, PREFERENCES_PASSWORD_KEY, STORED_VALUE)).andReturn(true);
         PowerMock.replay(PreferencesManager.class);

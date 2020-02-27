@@ -29,14 +29,6 @@ public class PasswordManager {
     private static final int SALT_SIZE_BYTES = 32;
 
     /**
-     * @param context Context of the app component requesting the password.
-     * @return the password saved in memory
-     */
-    static String getPassword(@NonNull Context context) {
-        return PreferencesManager.getString(context, PREFERENCES_PASSWORD_KEY);
-    }
-
-    /**
      * @param context  Context of the app component requesting to set the password.
      * @param password password that needs to be saved to disk
      */
@@ -75,6 +67,7 @@ public class PasswordManager {
      */
     static void deletePassword(@NonNull Context context) {
         PreferencesManager.removeValue(context, PREFERENCES_PASSWORD_KEY);
+        PreferencesManager.removeValue(context, PREFERENCES_SALT_KEY);
     }
 
     /**
