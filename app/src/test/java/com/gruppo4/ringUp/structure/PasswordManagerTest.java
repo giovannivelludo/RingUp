@@ -59,16 +59,4 @@ public class PasswordManagerTest {
         PowerMock.verify(PreferencesManager.class);
     }
 
-    @Test
-    public void deletePassword() {
-        expect(PreferencesManager.removeValue(mockedContext, PREFERENCES_PASSWORD_KEY)).andReturn(true);
-        PowerMock.replay(PreferencesManager.class);
-        try {
-            PasswordManager.deletePassword(mockedContext);
-        } catch (Exception e) {
-            Assert.fail(SHOULD_NOT);
-        }
-        PowerMock.verify(PreferencesManager.class);
-    }
-
 }

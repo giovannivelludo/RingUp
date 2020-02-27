@@ -35,6 +35,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.gruppo4.ringUp.R;
 import com.gruppo4.ringUp.permissions.PermissionsHandler;
 import com.gruppo4.ringUp.structure.AppManager;
+import com.gruppo4.ringUp.structure.Crypto;
 import com.gruppo4.ringUp.structure.NotificationHandler;
 import com.gruppo4.ringUp.structure.PasswordManager;
 import com.gruppo4.ringUp.structure.ReceivedMessageListener;
@@ -43,6 +44,9 @@ import com.gruppo4.ringUp.structure.RingtoneHandler;
 import com.gruppo4.ringUp.dialog.PasswordDialog;
 import com.gruppo4.ringUp.dialog.PasswordDialogListener;
 import com.gruppo4.ringUp.structure.exceptions.IllegalCommandException;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Gruppo4
@@ -83,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
         } else if (!PasswordManager.isPassSaved(context)) {
             preActIntent = new Intent(context, InstructionsActivity.class);
             startActivity(preActIntent);
+            try {
+                Crypto.generateKeyPair(this);
+            } catch (NoSuchAlgorithmException | IOException e) {
+                System.exit(-1);
+            }
             this.finish();
         }
 

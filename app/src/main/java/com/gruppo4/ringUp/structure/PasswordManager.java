@@ -62,16 +62,6 @@ public class PasswordManager {
     }
 
     /**
-     * Deletes the password saved in memory
-     *
-     * @param context Context of the app component requesting deletion of the password.
-     */
-    static void deletePassword(@NonNull Context context) {
-        PreferencesManager.removeValue(context, PREFERENCES_PASSWORD_KEY);
-        PreferencesManager.removeValue(context, PREFERENCES_SALT_KEY);
-    }
-
-    /**
      * @return a random salt of size SALT_SIZE_BYTES.
      */
     private static byte[] getSalt() {
