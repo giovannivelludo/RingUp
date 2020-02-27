@@ -35,10 +35,9 @@ dependencies {
     implementation 'com.github.CremaLuca:android-preferences:v3.1.1'
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'com.github.Cogno-IDU:smslibrary:v2.2'
+    implementation 'com.github.kenglxn:QRGen:2.6.0'
     testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.4'
     testImplementation group: 'org.powermock', name: 'powermock-api-easymock', version: '2.0.4'
     testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.4'
-
-
 }

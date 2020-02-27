@@ -35,4 +35,8 @@ public class Crypto {
         PreferencesManager.setObject(context.getApplicationContext(), PREFERENCES_PUBLIC_KEY, publicKey);
         PreferencesManager.setObject(context.getApplicationContext(), PREFERENCES_PRIVATE_KEY, privateKey);
     }
+
+    static RSAPublicKey getMyPublicKey(Context context) {
+        return (RSAPublicKey) PreferencesManager.getObject(context, PREFERENCES_PUBLIC_KEY);
+    }
 }
