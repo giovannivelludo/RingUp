@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
     static final int SET_PASS_COMMAND = 1;
     static final String DIALOG_TAG = "Device Password";
     private static final int PICK_CONTACT = 1;
-    private PasswordManager passwordManager;
     public static final String CHANNEL_NAME = "TestChannelName";
     public static final String CHANNEL_ID = "123";
     private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Stop Ringtone Notification";
@@ -73,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
         setContentView(R.layout.activity_main);
 
         Context context = getApplicationContext();
-
-        passwordManager = new PasswordManager();
 
         Intent preActIntent;
         //If the permissions are not given, the permissionsActivity is opened
@@ -276,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
     @Override
     public void onPasswordChanged(String password, Context context) {
         Toast.makeText(context, getString(R.string.toast_password_changed), Toast.LENGTH_SHORT).show();
-        passwordManager.setPassword(context, password);
+        PasswordManager.setPassword(context, password);
     }
 
     @Override

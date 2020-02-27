@@ -56,7 +56,7 @@ public class InstructionsActivity extends AppCompatActivity implements PasswordD
      */
     @Override
     public void onPasswordSet(String password, Context context) {
-        passwordManager.setPassword(context, password);
+        PasswordManager.setPassword(context, password);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         //This activity will no longer be necessary

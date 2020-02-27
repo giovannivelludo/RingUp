@@ -1,15 +1,13 @@
 package com.gruppo4.ringUp.audioUtility;
 
-/**
- * @author Francesco Bau'
- */
-
 import android.content.Context;
 import android.media.AudioManager;
 
 import static android.content.Context.AUDIO_SERVICE;
 
-
+/**
+ * @author Francesco Bau'
+ */
 public class AudioUtilityManager {
 
     public static final int MAX_PERCENTAGE = 100;
