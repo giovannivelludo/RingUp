@@ -27,7 +27,7 @@ public class PasswordManagerTest {
     @Mock
     private Context mockedContext;
 
-    private static final String STORED_VALUE = "ciao";
+    private static final String PASSWORD = "ciao";
     private static final String SHOULD_NOT = "It should not have thrown an exception";
 
 
@@ -39,10 +39,12 @@ public class PasswordManagerTest {
 
     @Test
     public void setPassword() {
-        expect(PreferencesManager.setString(mockedContext, PREFERENCES_PASSWORD_KEY, STORED_VALUE)).andReturn(true);
+        //TODO: mock getSalt() and make it return a predetermined value, then check if setString
+        // is passed the hash of (password + salt)
+        expect(PreferencesManager.setString(mockedContext, PREFERENCES_PASSWORD_KEY, PASSWORD)).andReturn(true);
         PowerMock.replay(PreferencesManager.class);
         try {
-            PasswordManager.setPassword(mockedContext, STORED_VALUE);
+            PasswordManager.setPassword(mockedContext, PASSWORD);
         } catch (Exception e) {
             Assert.fail(SHOULD_NOT);
         }
@@ -51,7 +53,7 @@ public class PasswordManagerTest {
 
     @Test
     public void isPassSaved() {
-        expect(PreferencesManager.getString(mockedContext, PREFERENCES_PASSWORD_KEY)).andReturn(STORED_VALUE);
+        expect(PreferencesManager.getString(mockedContext, PREFERENCES_PASSWORD_KEY)).andReturn(PASSWORD);
         PowerMock.replay(PreferencesManager.class);
         Assert.assertTrue(PasswordManager.isPassSaved(mockedContext));
         PowerMock.verify(PreferencesManager.class);

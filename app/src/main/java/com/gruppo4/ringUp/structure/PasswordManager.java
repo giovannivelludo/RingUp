@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
@@ -98,10 +99,10 @@ public class PasswordManager {
             passwordHash = md.digest();
         } catch (NoSuchAlgorithmException e) {
         }
-        String base64passwordHash = Base64.getEncoder().encodeToString(passwordHash);
         String actualBase64passwordHash = PreferencesManager.getString(context,
                 PREFERENCES_PASSWORD_KEY);
-        return base64passwordHash.equals(actualBase64passwordHash);
+        byte[] actualPasswordHash = Base64.getDecoder().decode(actualBase64passwordHash);
+        return Arrays.equals(passwordHash, actualPasswordHash);
     }
 
 }
