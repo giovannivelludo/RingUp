@@ -33,4 +33,5 @@
     <string name="change_device_password">Cambia la password del telefono</string>
     <string name="set_device_password">Imposta la password del telefono</string>
     <string name="ten_second_timer_timer">Tempo di attesa per il prossimo RingUp:</string>
+    <string name="view_qr_code">Visualizza codice QR</string>
 </resources>
