@@ -19,6 +19,9 @@
         android:roundIcon="@mipmap/first_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name=".activities.QRCodeDialog"
+            android:theme="@style/QRCodeDialogTheme" />
         <activity android:name=".activities.InstructionsActivity" />
         <activity android:name=".activities.PermissionsActivity" />
         <activity android:name=".activities.MainActivity">

@@ -375,6 +375,17 @@ public class MainActivity extends AppCompatActivity implements PasswordDialogLis
         Log.d("MainActivity", "Showing StopRingDialog...");
     }
 
+    /**
+     * Opens a dialog with the QR code generated from our public RSA key.
+     *
+     * @param view The view calling the method
+     * @author Giovanni Velludo
+     */
+    public void showQRCode(View view) {
+        Intent intent = new Intent(this, QRCodeDialog.class);
+        startActivity(intent);
+    }
+
 }
 
 
