@@ -18,13 +18,13 @@ public class QRCodeDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code_dialog);
 
-        mDialog = (ImageView) findViewById(R.id.your_image);
+        mDialog = (ImageView) findViewById(R.id.qr_code);
         mDialog.setImageBitmap(QRCodeManager.getPublicKeyQRCode(this));
         mDialog.setClickable(true);
 
         //finish the activity (dismiss the image dialog) if the user clicks
         //anywhere on the image
-        mDialog.setOnClickListener(new OnClickListener() {
+        mDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

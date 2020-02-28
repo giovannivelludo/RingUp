@@ -7,9 +7,8 @@
     android:gravity = "center">
 
     <ImageView
-        android:id="@+id/your_image"
+        android:id="@+id/qr_code"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src = "@drawable/your_image_drawable"/>
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>
